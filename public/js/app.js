@@ -1,62 +1,60 @@
-//* Cms -> Content Management System
-
 const data = {
   users: [
-    {
-      id: 1,
-      name: "عرفان نشاطی",
-      username: "erfan",
-      email: "erfan@gmail.com",
-      password: "erfan1212",
-    },
-    {
-      id: 2,
-      name: "اصغر اصغری",
-      username: "asghar",
-      email: "asghar@gmail.com",
-      password: "asghar1212",
-    },
-    {
-      id: 3,
-      name: "کاظم کاظمی",
-      username: "kazem",
-      email: "kazem@gmail.com",
-      password: "kazem1212",
-    },
-    {
-      id: 4,
-      name: "مراد مرادی",
-      username: "morad",
-      email: "morad@gmail.com",
-      password: "morad1212",
-    },{
-      id: 5,
-      name: "امیر امیری",
-      username: "amir",
-      email: "amir@gmail.com",
-      password: "amir1212",
-    },
-    {
-      id: 6,
-      name: "فرید فریدی",
-      username: "farid",
-      email: "farid@gmail.com",
-      password: "farid1212",
-    },
-    {
-      id: 7,
-      name: "محمد محمدی",
-      username: "mmd",
-      email: "mmd@gmail.com",
-      password: "mmd1212",
-    },
-    {
-      id: 8,
-      name: "احمد احمدی",
-      username: "ahmad",
-      email: "ahmad@gmail.com",
-      password: "ahmad1212",
-    },
+    // {
+    //   id: 1,
+    //   name: "عرفان نشاطی",
+    //   username: "erfan",
+    //   email: "erfan@gmail.com",
+    //   password: "erfan1212",
+    // },
+    // {
+    //   id: 2,
+    //   name: "اصغر اصغری",
+    //   username: "asghar",
+    //   email: "asghar@gmail.com",
+    //   password: "asghar1212",
+    // },
+    // {
+    //   id: 3,
+    //   name: "کاظم کاظمی",
+    //   username: "kazem",
+    //   email: "kazem@gmail.com",
+    //   password: "kazem1212",
+    // },
+    // {
+    //   id: 4,
+    //   name: "مراد مرادی",
+    //   username: "morad",
+    //   email: "morad@gmail.com",
+    //   password: "morad1212",
+    // },{
+    //   id: 5,
+    //   name: "امیر امیری",
+    //   username: "amir",
+    //   email: "amir@gmail.com",
+    //   password: "amir1212",
+    // },
+    // {
+    //   id: 6,
+    //   name: "فرید فریدی",
+    //   username: "farid",
+    //   email: "farid@gmail.com",
+    //   password: "farid1212",
+    // },
+    // {
+    //   id: 7,
+    //   name: "محمد محمدی",
+    //   username: "mmd",
+    //   email: "mmd@gmail.com",
+    //   password: "mmd1212",
+    // },
+    // {
+    //   id: 8,
+    //   name: "احمد احمدی",
+    //   username: "ahmad",
+    //   email: "ahmad@gmail.com",
+    //   password: "ahmad1212",
+    // },
   ],
 
   products: [
@@ -109,10 +107,10 @@ const data = {
       slug: "socks",
     },
   ],
-};
+};  
 
 const toggleMenu = document.querySelector(".toggle-sidebar");
-const latestUsers = document.querySelector(".latest-users");
+const showUsersElem = document.querySelector(".show-users");
 const productsBody = document.querySelector(".table-body");
 const modalScreen = document.querySelector(".modal-screen")
 const pagination = document.querySelector(".pagination")
@@ -120,6 +118,42 @@ const productsData = document.querySelectorAll(".products-data")
 const usersData = document.querySelector(".users-data")
 const toast = document.querySelector(".toast")
 const createProductBtn = document.querySelector(".create-product")
+
+const users = fetch("https://js-cms.iran.liara.run/api/users")
+  .then(response => response.json())
+  .then(users => {
+    users.forEach((user) => {
+      data.users.push(user)
+
+      let page = 1;
+      let userPerPage = 5;
+      let startUserIndex = (page - 1) * userPerPage;
+      let endUserIndex = startUserIndex + userPerPage;
+    
+      const showUsers = data.users.slice(startUserIndex , endUserIndex)
+    
+      showUsersElem.innerHTML=""
+      showUsers.forEach(function(user){
+        showUsersElem.insertAdjacentHTML("beforeend" , 
+          `
+          <article>
+            <!-- user icon -->
+            <span class="icon-card">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            <!-- user data -->
+            <div>
+              <p class="user-name">${user.firstname} ${user.lastname}</p>
+              <p class="user-email">${user.email}</p>
+            </div>
+          </article>
+          `
+        ) 
+      })
+    })
+  })
+
+  console.log(data.users);
 
 function loadPage(){
   productsData.forEach(function(productData){
@@ -149,7 +183,7 @@ function latestUsersSection(){
         </span>
         <!-- user data -->
         <div>
-          <p class="user-name">${user.name}</p>
+          <p class="user-name">${user.firstname} ${user.lastname}</p>
           <p class="user-email">${user.email}</p>
         </div>
       </article>
@@ -428,7 +462,7 @@ toggleMenu.addEventListener("click", function () {
   document.querySelector(".sidebar").classList.toggle("open");
 });
 
-if (latestUsers){
+if (showUsersElem){
   latestUsersSection()
 }
 
