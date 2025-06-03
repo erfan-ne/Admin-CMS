@@ -1,4 +1,3 @@
-// داده اولیه
 const data = {
   users: [],
   courses: [],

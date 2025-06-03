@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مدیریت ممحصولات</title>
+    <title>مدیریت دوره‌ها</title>
+    <link rel="stylesheet" href="./../../public/css/reset.css">
     <link rel="stylesheet" href="./../../public/css/styles.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
   </head>
-  <body onload="loadPage()">
+  <body>
     <!-- main content -->
     <main>
       <!-- Sidebar -->
@@ -28,11 +29,11 @@
                 <span class="title">داشبورد</span>
               </a>
             </li>
-            <!-- Products -->
+            <!-- courses -->
             <li>
               <a href="#" class="navlink active">
                 <span class="navicon"><i class="fa-solid fa-box"></i></span>
-                <span class="title">محصولات</span>
+                <span class="title">دوره‌ها</span>
               </a>
             </li>
             <li>
@@ -56,7 +57,7 @@
         <div class="breadcrumbs">
           <a href="../../index.html" class="breadcrumb">صفحه اصلی</a>
           <span class="backslack"> / </span>
-          <a href="#">محصولات</a>
+          <a href="#">دوره‌ها</a>
         </div>
 
         <!-- Table -->
@@ -65,15 +66,15 @@
           <!-- Table Header -->
           <div class="section-header">
             <div>
-              <p class="title-text">لیست محصولات</p>
-              <p class="products-count-text caption-text">
-                <span class="products-data">۳</span>
-                <span> محصول در وبسایت شما وجود دارد </span>
+              <p class="title-text">لیست دوره‌ها</p>
+              <p class="courses-count-text caption-text">
+                <span class="courses-data">۳</span>
+                <span> دوره در وبسایت شما وجود دارد </span>
               </p>
             </div>
-            <button id="create-product" class="section-link" onclick="showCreateModal()">
+            <button id="create-course" class="section-link" onclick="showCreateModal()">
               <span>
-                <span> ایجاد محصول </span>
+                <span> ایجاد دوره </span>
                 <!-- Plus icon -->
                 <i class="fa-solid fa-plus"></i>
               </span>
@@ -82,8 +83,8 @@
 
           <!-- Table Head row -->
           <div class="table-head-row">
-            <p>عنوان محصول</p>
-            <p>قیمت محصول</p>
+            <p>عنوان دوره</p>
+            <p>قیمت دوره</p>
             <p>عنوان کوتاه</p>
             <p>مدیریت</p>
           </div>
@@ -110,7 +111,7 @@
       <span class="icon-card">
         <span class="icon"></span>
       </span>
-      <span class="toast-content"> محصول با موفقیت ویرایش شد </span>
+      <span class="toast-content"> دوره با موفقیت ویرایش شد </span>
 
       <div class="process-bar">
         <div class="process"></div>
@@ -122,13 +123,13 @@
         <i class="ui-border top red"></i>
         <i class="ui-border bottom red"></i>
         <header class="modal-header">
-          <h3>حذف محصول</h3>
+          <h3>حذف دوره</h3>
           <button class="close-modal">
             <i class="fas fa-times"></i>
           </button>
         </header>
         <main class="modal-content">
-          <p class="remove-text">آیا از حذف این محصول اطمینان دارید؟</p>
+          <p class="remove-text">آیا از حذف این دوره اطمینان دارید؟</p>
         </main>
         <footer class="modal-footer">
           <button class="cancel">انصراف</button>
@@ -144,10 +145,10 @@
       <i class="fas fa-sun"></i>
     </button>
 
-    <!-- Product Edit Modal -->
+    <!-- course Edit Modal -->
     <!-- 
             <header class="modal-header">
-            <h3>ویرایش محصول</h3>
+            <h3>ویرایش دوره</h3>
             <button class="close-modal">
               <i class="fas fa-times"></i>
             </button>
@@ -156,20 +157,20 @@
             <input
               type="text"
               class="modal-input"
-              placeholder="عنوان محصول را وارد نمائید ..."
-              id="product-title"
+              placeholder="عنوان دوره را وارد نمائید ..."
+              id="course-title"
             />
             <input
               type="number"
               class="modal-input"
-              placeholder="قیمت محصول را وارد نمائید ..."
-              id="product-price"
+              placeholder="قیمت دوره را وارد نمائید ..."
+              id="course-price"
             />
             <input
               type="number"
               class="modal-input"
-              placeholder="عنوان کوتاه محصول را وارد نمائید ..."
-              id="product-shortName"
+              placeholder="عنوان کوتاه دوره را وارد نمائید ..."
+              id="course-shortName"
             />
           </main>
           <footer class="modal-footer">
@@ -178,10 +179,10 @@
           </footer>
      -->
 
-    <!-- Product create modal -->
+    <!-- course create modal -->
     <!-- 
            <header class="modal-header">
-            <h3>ایجاد محصول</h3>
+            <h3>ایجاد دوره</h3>
             <button class="close-modal">
               <i class="fas fa-times"></i>
             </button>
@@ -190,20 +191,20 @@
             <input
               type="text"
               class="modal-input"
-              placeholder="عنوان محصول را وارد نمائید ..."
-              id="product-title"
+              placeholder="عنوان دوره را وارد نمائید ..."
+              id="course-title"
             />
             <input
               type="number"
               class="modal-input"
-              placeholder="قیمت محصول را وارد نمائید ..."
-              id="product-price"
+              placeholder="قیمت دوره را وارد نمائید ..."
+              id="course-price"
             />
             <input
               type="number"
               class="modal-input"
-              placeholder="عنوان کوتاه محصول را وارد نمائید ..."
-              id="product-shortName"
+              placeholder="عنوان کوتاه دوره را وارد نمائید ..."
+              id="course-shortName"
             />
           </main>
           <footer class="modal-footer">
@@ -212,24 +213,24 @@
           </footer>
      -->
 
-    <!-- Remove Product Modal  -->
+    <!-- Remove course Modal  -->
     <!-- 
          <i class="ui-border top red"></i>
           <i class="ui-border bottom red"></i>
           <header class="modal-header">
-            <h3>حذف محصول</h3>
+            <h3>حذف دوره</h3>
             <button class="close-modal">
               <i class="fas fa-times"></i>
             </button>
           </header>
           <main class="modal-content">
-            <p class="remove-text">آیا از حذف این محصول اطمینان دارید؟</p>
+            <p class="remove-text">آیا از حذف این دوره اطمینان دارید؟</p>
           </main>
           <footer class="modal-footer">
             <button class="cancel">انصراف</button>
             <button class="submit">تائید</button>
           </footer>
            -->
-    <script src="../../public/js/app.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
