@@ -4,6 +4,7 @@ const data = {
 const toggleMenu = document.querySelector(".toggle-sidebar");
 const coursesBody = document.querySelector(".table-body");
 const coursesData = document.querySelectorAll(".courses-data");
+const pagination = document.querySelector(".pagination");
 
 const coursesSection = () => {
     fetch("https://js-cms.iran.liara.run/api/courses")
