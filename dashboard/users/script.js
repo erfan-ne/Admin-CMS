@@ -92,7 +92,7 @@ const data = {
           <i class="ui-border bottom red"></i>
           <header class="modal-header">
             <h3>اخراج کاربر</h3>
-            <button class="close-modal">
+            <button class="close-modal" onclick="hideRemoveUserModal()">
               <i class="fas fa-times"></i>
             </button>
           </header>
@@ -107,6 +107,8 @@ const data = {
       `
     );
   };
+
+  const hideRemoveUserModal = () => modalScreen.classList.add("hidden")
   
   const removeUser = (userID) => {
     fetch(`https://js-cms.iran.liara.run/api/users/${userID}`, { method: "DELETE" }).then((response) => {
@@ -130,6 +132,7 @@ const data = {
         }, 50);
   
         latestUsersSection();
+        hideRemoveUserModal()
       }
     });
   };
