@@ -3,6 +3,9 @@ const data = {
   courses: [],
 };
 
+
+
+
 const toggleMenu = document.querySelector(".toggle-sidebar");
 const showUsersElem = document.querySelector(".show-users");
 const coursesBody = document.querySelector(".table-body");
@@ -77,8 +80,7 @@ const coursesSection = () => {
           );
         })
       });
-
-      coursesData.innerHTML = data.courses.length
+      coursesData.forEach(course => course.innerHTML = data.courses.length)
     }
   )
 }

@@ -74,9 +74,7 @@ const coursesSection = () => {
           }
         });
   
-        coursesData.forEach(function (courseData) {
-          courseData.innerHTML = data.courses.length;
-        });
+        coursesData.forEach(course => course.innerHTML = data.courses.length)
       });
   };
 
