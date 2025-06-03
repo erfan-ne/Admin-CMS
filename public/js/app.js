@@ -68,7 +68,7 @@ const coursesSection = () => {
                 <button class="edit-btn" onclick="showEditCourseModal(${course.id})">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="remove-btn" onclick="showRemoveCourseModal(${course.id})">
+                <button class="remove-btn" onclick="showRemoveCourseModal(${course._id})">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
@@ -195,8 +195,7 @@ function showCreateCourseModal() {
 function showRemoveCourseModal(courseID) {
   modalScreen.classList.remove("hidden");
   modalScreen.innerHTML = "";
-  modalScreen.insertAdjacentHTML(
-    "beforeend",
+  modalScreen.insertAdjacentHTML("beforeend",
     `
     <div class="modal">
       <i class="ui-border top red"></i>

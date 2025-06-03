@@ -4,6 +4,8 @@ const data = {
 const showUsersElem = document.querySelector(".table-body");
 const pagination = document.querySelector(".pagination");
 const usersData = document.querySelector(".users-data");
+const modalScreen = document.querySelector(".modal-screen")
+
 
 const latestUsersSection = () => {
     fetch("https://js-cms.iran.liara.run/api/users")
@@ -29,12 +31,12 @@ const latestUsersSection = () => {
               <p class="user-username">${user.username}</p>
               <p class="user-email">${user.email}</p>
               <p class="user-city">${user.city}</p>
-              <div class="product-manage">
+              <div class="course-manage">
                 <button class="edit-btn">
                   <!-- Edit icon -->
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="remove-btn">
+                <button class="remove-btn" onclick="showRemoveUserModal(${user._id})">
                   <!-- Ban icon -->
                   <i class="fas fa-ban"></i>
                 </button>
@@ -50,6 +52,40 @@ const latestUsersSection = () => {
       });
   };
 
+  const showRemoveUserModal = (userID) => {
+    modalScreen.classList.remove("hidden")
+    modalScreen.innerHTML = "";
+    modalScreen.insertAdjacentHTML("beforeend",
+        `
+        <div class="modal">
+            <i class="ui-border top red"></i>
+            <i class="ui-border bottom red"></i>
+            <header class="modal-header">
+              <h3>اخراج کاربر</h3>
+              <button class="close-modal">
+                <i class="fas fa-times"></i>
+              </button>
+            </header>
+            <main class="modal-content">
+              <p class="remove-text">آیا از اخراج(بن) کردن این کاربر اطمینان دارید؟</p>
+            </main>
+            <footer class="modal-footer">
+              <button class="cancel" onclick="hideRemoveUserModal()">انصراف</button>
+              <button class="submit" onclick="removeUser(${userID})>تائید</button>
+            </footer>
+        </div>
+        `
+    )
+
+    const removeUser = (userID) => {
+        fetch(`https://js-cms.iran.liara.run/api/courses/${userID}`, {method: "DELETE"})
+            .then(response => {
+                if (response.status === 200){
+                    
+                }
+            })
+    }
+  }
+
 
 latestUsersSection();
-console.log(data.users);
