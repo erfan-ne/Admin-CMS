@@ -58,54 +58,54 @@ const data = {
   ],
 
   products: [
-    {
-      id: 1,
-      title: "کفش ورزشی",
-      price: 2000000,
-      slug: "nike-sport-shoe",
-    },
-    {
-      id: 2,
-      title: "تیشرت",
-      price: 550000,
-      slug: "sport-shirt",
-    },
-    {
-      id: 3,
-      title: "پیراهن",
-      price: 1000000,
-      slug: "blues",
-    },
-    {
-      id: 4,
-      title: "راکت تنیس",
-      price: 5600000,
-      slug: "tennis-racket",
-    },
-    {
-      id: 5,
-      title: "توپ فوتبال",
-      price: 4200000,
-      slug: "football-ball",
-    },
-    {
-      id: 6,
-      title: "کمربند ورزشی",
-      price: 1700000,
-      slug: "sport-Belt",
-    },
-    {
-      id: 7,
-      title: "دستکش",
-      price: 200000,
-      slug: "gloves",
-    },
-    {
-      id: 8,
-      title: "جوراب",
-      price: 100000,
-      slug: "socks",
-    },
+    // {
+    //   id: 1,
+    //   title: "کفش ورزشی",
+    //   price: 2000000,
+    //   slug: "nike-sport-shoe",
+    // },
+    // {
+    //   id: 2,
+    //   title: "تیشرت",
+    //   price: 550000,
+    //   slug: "sport-shirt",
+    // },
+    // {
+    //   id: 3,
+    //   title: "پیراهن",
+    //   price: 1000000,
+    //   slug: "blues",
+    // },
+    // {
+    //   id: 4,
+    //   title: "راکت تنیس",
+    //   price: 5600000,
+    //   slug: "tennis-racket",
+    // },
+    // {
+    //   id: 5,
+    //   title: "توپ فوتبال",
+    //   price: 4200000,
+    //   slug: "football-ball",
+    // },
+    // {
+    //   id: 6,
+    //   title: "کمربند ورزشی",
+    //   price: 1700000,
+    //   slug: "sport-Belt",
+    // },
+    // {
+    //   id: 7,
+    //   title: "دستکش",
+    //   price: 200000,
+    //   slug: "gloves",
+    // },
+    // {
+    //   id: 8,
+    //   title: "جوراب",
+    //   price: 100000,
+    //   slug: "socks",
+    // },
   ],
 };  
 
@@ -119,7 +119,18 @@ const usersData = document.querySelector(".users-data")
 const toast = document.querySelector(".toast")
 const createProductBtn = document.querySelector(".create-product")
 
-const users = fetch("https://js-cms.iran.liara.run/api/users")
+function loadPage(){
+  productsData.forEach(function(productData){
+    productData.innerHTML = data.products.length
+  })
+  
+  if (usersData){
+    usersData.innerHTML = data.users.length
+  }
+}
+
+const latestUsersSection = () => {
+  fetch("https://js-cms.iran.liara.run/api/users")
   .then(response => response.json())
   .then(users => {
     users.forEach((user) => {
@@ -133,6 +144,7 @@ const users = fetch("https://js-cms.iran.liara.run/api/users")
       const showUsers = data.users.slice(startUserIndex , endUserIndex)
     
       showUsersElem.innerHTML=""
+
       showUsers.forEach(function(user){
         showUsersElem.insertAdjacentHTML("beforeend" , 
           `
@@ -152,109 +164,83 @@ const users = fetch("https://js-cms.iran.liara.run/api/users")
       })
     })
   })
-
-  console.log(data.users);
-
-function loadPage(){
-  productsData.forEach(function(productData){
-    productData.innerHTML = data.products.length
-  })
-  
-  if (usersData){
-    usersData.innerHTML = data.users.length
-  }
 }
 
-function latestUsersSection(){
-  let page = 1;
-  let userPerPage = 5;
-  let startUserIndex = (page - 1) * userPerPage;
-  let endUserIndex = startUserIndex + userPerPage;
+const productsSection = () => {
+  fetch("https://js-cms.iran.liara.run/api/courses")
+    .then(response => response.json())
+    .then(courses => {
+      courses.forEach((course => {
+        data.products.push(course)
 
-  const showUsers = data.users.slice(startUserIndex , endUserIndex)
 
-  showUsers.forEach(function(user){
-    latestUsers.insertAdjacentHTML("beforeend" , 
-      `
-      <article>
-        <!-- user icon -->
-        <span class="icon-card">
-          <i class="fa-solid fa-user"></i>
-        </span>
-        <!-- user data -->
-        <div>
-          <p class="user-name">${user.firstname} ${user.lastname}</p>
-          <p class="user-email">${user.email}</p>
-        </div>
-      </article>
-      `
-    )
-  })
-}
-
-function productsSection(){
-  let page = 1;
-  let productPerPage = 6;
-
-  renderProducts(page);
-  
-  const pagesCount = data.products.length / productPerPage
-  
-  if(pagination){
-    pagination.innerHTML = "";
-
-    for (let i = 0 ; i < pagesCount ; i++){
-      pagination.insertAdjacentHTML("beforeend" , 
-      `
-      <span class="page ${i=== 0 ? "active" : ""}" 
-      onclick="changePageHandler(${i}+1)">${i+1}</span>
-      `
-      )
-    }
-  }
-    window.changePageHandler = function(userSelectedPage){
-      page = userSelectedPage;
-
-      const pageNumbers = document.querySelectorAll(".page")
-
-      pageNumbers.forEach(function(number){
-        if (+number.innerHTML === page){
-          number.classList.add("active")
-        } else {
-          number.classList.remove("active")
-        }
-      })
-      renderProducts(page);
-    }
-
-    function renderProducts(currentPage){
-      productsBody.innerHTML = ""
-      let startProductIndex = (currentPage - 1) * productPerPage;
-      let endProductIndex = startProductIndex + productPerPage;
-      const showProducts = data.products.slice(startProductIndex , endProductIndex)
+        let page = 1;
+        let productPerPage = 6;
       
-      showProducts.forEach(function(product){
-        productsBody.insertAdjacentHTML("beforeend" ,
-          `
-          <div class="tableRow">
-            <p class="product-title">${product.title}</p>
-            <p class="product-price">${product.price.toLocaleString()}</p>
-            <p class="product-shortName">${product.slug}</p>
-            <div class="product-manage">
-              <button class="edit-btn" onclick="showEditModal(${product.id})">
-                <!-- Edit icon -->
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="remove-btn" onclick="showRemoveModal(${product.id})">
-                <!-- Delete fas icon -->
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </div>
-          `
-        )
-      })
-    }
+        renderProducts(page);
+        
+        const pagesCount = data.products.length / productPerPage
+        
+        if(pagination){
+          pagination.innerHTML = "";
+      
+          for (let i = 0 ; i < pagesCount ; i++){
+            pagination.insertAdjacentHTML("beforeend" , 
+            `
+            <span class="page ${i=== 0 ? "active" : ""}" 
+            onclick="changePageHandler(${i}+1)">${i+1}</span>
+            `
+            )
+          }
+        }
+          window.changePageHandler = function(userSelectedPage){
+            page = userSelectedPage;
+      
+            const pageNumbers = document.querySelectorAll(".page")
+      
+            pageNumbers.forEach(function(number){
+              if (+number.innerHTML === page){
+                number.classList.add("active")
+              } else {
+                number.classList.remove("active")
+              }
+            })
+            renderProducts(page);
+          }
+      
+          function renderProducts(currentPage){
+            productsBody.innerHTML = ""
+            let startProductIndex = (currentPage - 1) * productPerPage;
+            let endProductIndex = startProductIndex + productPerPage;
+            const showProducts = data.products.slice(startProductIndex , endProductIndex)
+            
+            showProducts.forEach(function(product){
+              productsBody.insertAdjacentHTML("beforeend" ,
+                `
+                <div class="tableRow">
+                  <p class="product-title">${product.title}</p>
+                  <p class="product-price">${product.price.toLocaleString()}</p>
+                  <p class="product-shortName">${product.category}</p>
+                  <div class="product-manage">
+                    <button class="edit-btn" onclick="showEditModal(${product.id})">
+                      <!-- Edit icon -->
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="remove-btn" onclick="showRemoveModal(${product.id})">
+                      <!-- Delete fas icon -->
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                `
+              )
+            })
+          }
+
+      }))
+
+
+    })
 }
 
 function showEditModal(productID){
@@ -287,7 +273,7 @@ function showEditModal(productID){
           <input
             type="text"
             class="modal-input"
-            placeholder="عنوان کوتاه محصول را وارد نمائید ..."
+            placeholder="دسته بندی دوره را وارد نمائید ..."
             id="product-shortName"
           />
         </main>
@@ -314,7 +300,7 @@ function showEditModal(productID){
 
   titleInput.value = selectProduct.title;
   priceInput.value = selectProduct.price;
-  shortNameInput.value = selectProduct.slug;
+  shortNameInput.value = selectProduct.category;
 
   submitDeleteBtn.addEventListener("click" , function(){
     
@@ -462,6 +448,7 @@ toggleMenu.addEventListener("click", function () {
   document.querySelector(".sidebar").classList.toggle("open");
 });
 
+// چک شود شاید بلا استفاده باشد
 if (showUsersElem){
   latestUsersSection()
 }
