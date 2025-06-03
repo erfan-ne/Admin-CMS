@@ -13,23 +13,17 @@ const usersData = document.querySelector(".users-data");
 const toast = document.querySelector(".toast");
 const createCourseBtn = document.querySelector(".create-course");
 
-const latestUsersSection = () => {
+const userSection = () => {
   fetch("https://js-cms.iran.liara.run/api/users")
     .then((response) => response.json())
     .then((users) => {
       users.forEach((user) => {
         data.users.push(user);
 
-        let page = 1;
-        let userPerPage = 5;
-        let startUserIndex = (page - 1) * userPerPage;
-        let endUserIndex = startUserIndex + userPerPage;
-
-        const showUsers = data.users.slice(startUserIndex, endUserIndex);
+        const lastUsers = data.users.slice(-4)
 
         showUsersElem.innerHTML = "";
-
-        showUsers.forEach(function (user) {
+        lastUsers.forEach((user) => {
           showUsersElem.insertAdjacentHTML(
             "beforeend",
             `
@@ -43,13 +37,11 @@ const latestUsersSection = () => {
               </div>
             </article>
             `
-          );
-        });
+          )
+        })
       });
-      if (usersData) {
-        usersData.innerHTML = data.users.length;
-      }
-    });
+      usersData.innerHTML = data.users.length
+    })
 };
 
 const coursesSection = () => {
@@ -59,69 +51,37 @@ const coursesSection = () => {
       courses.forEach((course) => {
         data.courses.push(course);
 
-        let page = 1;
-        let coursePerPage = 6;
+        const lastCourses = data.courses.slice(-4)
 
-        renderCourses(page);
+        coursesBody.innerHTML = "";
+        lastCourses.forEach(course => {
 
-        const pagesCount = data.courses.length / coursePerPage;
 
-        if (pagination) {
-          pagination.innerHTML = "";
-
-          for (let i = 0; i < pagesCount; i++) {
-            pagination.insertAdjacentHTML(
-              "beforeend",
-              `<span class="page ${i === 0 ? "active" : ""}" onclick="changePageHandler(${i} + 1)">${i + 1}</span>`
-            );
-          }
-        }
-
-        window.changePageHandler = function (userSelectedPage) {
-          page = userSelectedPage;
-
-          const pageNumbers = document.querySelectorAll(".page");
-
-          pageNumbers.forEach(function (number) {
-            number.classList.toggle("active", +number.innerHTML === page);
-          });
-          renderCourses(page);
-        };
-
-        function renderCourses(currentPage) {
-          coursesBody.innerHTML = "";
-          let startIndex = (currentPage - 1) * coursePerPage;
-          let endIndex = startIndex + coursePerPage;
-          const showCourses = data.courses.slice(startIndex, endIndex);
-
-          showCourses.forEach(function (course) {
-            coursesBody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <div class="tableRow">
-                <p class="course-title">${course.title}</p>
-                <p class="course-price">${course.price.toLocaleString()}</p>
-                <p class="course-category">${course.category}</p>
-                <div class="course-manage">
-                  <button class="edit-btn" onclick="showEditCourseModal(${course.id})">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="remove-btn" onclick="showRemoveCourseModal(${course.id})">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </div>
+          coursesBody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="tableRow">
+              <p class="course-title">${course.title}</p>
+              <p class="course-price">${course.price.toLocaleString()}</p>
+              <p class="course-category">${course.category}</p>
+              <div class="course-manage">
+                <button class="edit-btn" onclick="showEditCourseModal(${course.id})">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="remove-btn" onclick="showRemoveCourseModal(${course.id})">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
-              `
-            );
-          });
-        }
+            </div>
+            `
+          );
+        })
       });
 
-      coursesData.forEach(function (courseData) {
-        courseData.innerHTML = data.courses.length;
-      });
-    });
-};
+      coursesData.innerHTML = data.courses.length
+    }
+  )
+}
 
 function showEditCourseModal(courseID) {
   modalScreen.classList.remove("hidden");
@@ -301,7 +261,7 @@ toggleMenu.addEventListener("click", function () {
 });
 
 if (showUsersElem) {
-  latestUsersSection();
+  userSection();
 }
 
 coursesSection();
