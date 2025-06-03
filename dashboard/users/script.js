@@ -1,6 +1,7 @@
 const data = {
     users: [],
   };
+const toggleMenu = document.querySelector(".toggle-sidebar");
 const showUsersElem = document.querySelector(".table-body");
 const pagination = document.querySelector(".pagination");
 const usersData = document.querySelector(".users-data");
@@ -11,8 +12,7 @@ const latestUsersSection = () => {
     fetch("https://js-cms.iran.liara.run/api/users")
       .then((response) => response.json())
       .then((apiUsers) => {
-        apiUsers.forEach((user) => {
-          data.users.push(user)
+        data.users = apiUsers;
   
           let page = 1;
           let userPerPage = 5;
@@ -23,7 +23,7 @@ const latestUsersSection = () => {
   
           showUsersElem.innerHTML = "";
   
-          showUsers.forEach(function (user) {
+          showUsers.forEach((user) => {
             showUsersElem.insertAdjacentHTML("beforeend",
             `
             <div class="tableRow">
@@ -36,7 +36,7 @@ const latestUsersSection = () => {
                   <!-- Edit icon -->
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="remove-btn" onclick="showRemoveUserModal(${user._id})">
+                <button class="remove-btn" onclick="showRemoveUserModal('${user._id}')">
                   <!-- Ban icon -->
                   <i class="fas fa-ban"></i>
                 </button>
@@ -44,13 +44,12 @@ const latestUsersSection = () => {
             </div>
             `
             );
-          });
         });
         if (usersData) {
           usersData.innerHTML = data.users.length;
         }
-      });
-  };
+      })
+    }
 
   const showRemoveUserModal = (userID) => {
     modalScreen.classList.remove("hidden")
@@ -71,38 +70,40 @@ const latestUsersSection = () => {
             </main>
             <footer class="modal-footer">
               <button class="cancel" onclick="hideRemoveUserModal()">انصراف</button>
-              <button class="submit" onclick="removeUser(${userID})>تائید</button>
+              <button class="submit" onclick="removeUser('${userID}')">تائید</button>
             </footer>
         </div>
         `
     )
-
-    const removeUser = (userID) => {
-        fetch(`https://js-cms.iran.liara.run/api/courses/${userID}`, {method: "DELETE"})
-            .then(response => {
-                if (response.status === 200){
-                    const process = toast.querySelector(".process");
-                    const toastText = toast.querySelector(".toast-content")
-                    toast.classList.remove("hidden");
-
-                    toastText.innerHTML = "کاربر با موفقیت حذف شد"
-                  
-                    let timer;
-                    let processWidth = 0;
-                  
-                    timer = setInterval(function () {
-                      process.style.width = `${processWidth++}%`;
-                      if (processWidth === 120) {
-                        clearInterval(timer);
-                        toast.classList.add("hidden");
-                        process.style.width = "0%";
-                        processWidth = 0;
-                      }
-                    }, 50);
-                }
-            })
-    }
   }
 
+const removeUser = (userID) => {
+  fetch(`https://js-cms.iran.liara.run/api/users/${userID}`, {method: "DELETE"})
+    .then(response => {
+        if (response.status === 200){
+            const process = toast.querySelector(".process");
+            const toastText = toast.querySelector(".toast-content")
+            toast.classList.remove("hidden");
+            toastText.innerHTML = "کاربر با موفقیت حذف شد"
+          
+            let timer;
+            let processWidth = 0;
+          
+            timer = setInterval(function () {
+              process.style.width = `${processWidth++}%`;
+              if (processWidth === 120) {
+                clearInterval(timer);
+                toast.classList.add("hidden");
+                process.style.width = "0%";
+                processWidth = 0;
+              }
+            }, 50);
+        }
+    })
+}
+
+toggleMenu.addEventListener("click", function () {
+    document.querySelector(".sidebar").classList.toggle("open");
+  });
 
 latestUsersSection();
