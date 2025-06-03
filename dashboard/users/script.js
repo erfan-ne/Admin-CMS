@@ -5,7 +5,7 @@ const showUsersElem = document.querySelector(".table-body");
 const pagination = document.querySelector(".pagination");
 const usersData = document.querySelector(".users-data");
 const modalScreen = document.querySelector(".modal-screen")
-
+const toast = document.querySelector(".toast")
 
 const latestUsersSection = () => {
     fetch("https://js-cms.iran.liara.run/api/users")
@@ -81,7 +81,24 @@ const latestUsersSection = () => {
         fetch(`https://js-cms.iran.liara.run/api/courses/${userID}`, {method: "DELETE"})
             .then(response => {
                 if (response.status === 200){
-                    
+                    const process = toast.querySelector(".process");
+                    const toastText = toast.querySelector(".toast-content")
+                    toast.classList.remove("hidden");
+
+                    toastText.innerHTML = "کاربر با موفقیت حذف شد"
+                  
+                    let timer;
+                    let processWidth = 0;
+                  
+                    timer = setInterval(function () {
+                      process.style.width = `${processWidth++}%`;
+                      if (processWidth === 120) {
+                        clearInterval(timer);
+                        toast.classList.add("hidden");
+                        process.style.width = "0%";
+                        processWidth = 0;
+                      }
+                    }, 50);
                 }
             })
     }
