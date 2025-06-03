@@ -119,15 +119,8 @@ const usersData = document.querySelector(".users-data")
 const toast = document.querySelector(".toast")
 const createProductBtn = document.querySelector(".create-product")
 
-function loadPage(){
-  productsData.forEach(function(productData){
-    productData.innerHTML = data.products.length
-  })
-  
-  if (usersData){
-    usersData.innerHTML = data.users.length
-  }
-}
+// function loadPage(){
+// }
 
 const latestUsersSection = () => {
   fetch("https://js-cms.iran.liara.run/api/users")
@@ -163,6 +156,9 @@ const latestUsersSection = () => {
         ) 
       })
     })
+    if (usersData){
+      usersData.innerHTML = data.users.length
+    }
   })
 }
 
@@ -236,10 +232,10 @@ const productsSection = () => {
               )
             })
           }
-
       }))
-
-
+      productsData.forEach(function(productData){
+        productData.innerHTML = data.products.length
+      })
     })
 }
 
