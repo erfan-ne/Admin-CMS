@@ -200,6 +200,24 @@ const createNewCourse = () => {
     body: JSON.stringify(newCourse)
   }).then(response => {
     if(response.status === 201){
+      const process = toast.querySelector(".process");
+      const toastText = toast.querySelector(".toast-content");
+      toast.classList.remove("hidden");
+      toastText.innerHTML = "دوره با موفقیت اضافه شد";
+    
+      let timer;
+      let processWidth = 0;
+    
+      timer = setInterval(function () {
+        process.style.width = `${processWidth++}%`;
+        if (processWidth === 120) {
+          clearInterval(timer);
+          toast.classList.add("hidden");
+          process.style.width = "0%";
+          processWidth = 0;
+        }
+      }, 50);
+
       coursesSection()
       hideModal()
     }
