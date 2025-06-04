@@ -17,6 +17,7 @@ const coursesSection = () => {
   fetch("https://js-cms.iran.liara.run/api/courses")
     .then((response) => response.json())
     .then((courses) => {
+      data.courses.length = 0;
       data.courses.push(...courses);
 
       renderCourses(page);
@@ -162,7 +163,7 @@ const showCreateCourseModal = () => {
             id="course-price"
           />
           <input
-            type="number"
+            type="text"
             class="modal-input"
             placeholder="دسته بندی دوره را وارد نمائید ..."
             id="course-category"
@@ -177,7 +178,33 @@ const showCreateCourseModal = () => {
   );
 }
 
+const createNewCourse = () => {
+  const courseTitle = document.querySelector("#course-title")
+  const coursePrice = document.querySelector("#course-price")
+  const courseCategory = document.querySelector("#course-category")
 
+  const newCourse = {
+    title: courseTitle.value,
+    price: +coursePrice.value,
+    category: courseCategory.value,
+    registersCount: 100,
+    discount: "1",
+    desc: "fake desc"
+  }
+
+  fetch("https://js-cms.iran.liara.run/api/courses" ,{
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(newCourse)
+  }).then(response => {
+    if(response.status === 201){
+      coursesSection()
+      hideModal()
+    }
+  })
+}
 
 createCourseBtn.addEventListener("click" , showCreateCourseModal)
 toggleMenu.addEventListener("click", function () {
