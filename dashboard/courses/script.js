@@ -9,9 +9,7 @@ const pagination = document.querySelector(".pagination");
 const modalScreen = document.querySelector(".modal-screen");
 const toast = document.querySelector(".toast");
 const createCourseBtn = document.querySelector("#create-course")
-const courseTitle = document.querySelector("#course-title")
-const coursePrice = document.querySelector("#course-price")
-const courseCategory = document.querySelector("#course-category")
+
 
 let page = 1;
 let coursePerPage = 6;
@@ -209,10 +207,23 @@ function showEditCourseModal(courseID) {
     </div>
     `
   );
+
+  const courseTitle = document.querySelector("#course-title")
+  const coursePrice = document.querySelector("#course-price")
+  const courseCategory = document.querySelector("#course-category")
+
+  const courseSelect = data.courses.find( course => course._id === courseID)
+  
+  courseTitle.value = courseSelect.title
+  coursePrice.value = courseSelect.price
+  courseCategory.value = courseSelect.category
   
 }
 
 const EditCourse = (courseID) => {
+  const courseTitle = document.querySelector("#course-title")
+  const coursePrice = document.querySelector("#course-price")
+  const courseCategory = document.querySelector("#course-category")
 
   const editedCourse = {
     title: courseTitle.value,
@@ -225,7 +236,7 @@ const EditCourse = (courseID) => {
     method: "PUT",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(editedCourse)
-  });
+  })
 };
 
 const createNewCourse = () => {
