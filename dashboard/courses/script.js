@@ -236,6 +236,29 @@ const EditCourse = (courseID) => {
     method: "PUT",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(editedCourse)
+  }).then(response => {
+    if(response.status === 201){
+      const process = toast.querySelector(".process");
+      const toastText = toast.querySelector(".toast-content");
+      toast.classList.remove("hidden");
+      toastText.innerHTML = "ویرایش با موفقیت انجام شد";
+    
+      let timer;
+      let processWidth = 0;
+    
+      timer = setInterval(function () {
+        process.style.width = `${processWidth++}%`;
+        if (processWidth === 120) {
+          clearInterval(timer);
+          toast.classList.add("hidden");
+          process.style.width = "0%";
+          processWidth = 0;
+        }
+      }, 50);
+
+      coursesSection()
+      hideModal()
+    }
   })
 };
 
