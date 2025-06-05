@@ -68,10 +68,10 @@ const coursesSection = () => {
               <p class="course-price">${course.price.toLocaleString()}</p>
               <p class="course-category">${course.category}</p>
               <div class="course-manage">
-                <button class="edit-btn" onclick="showEditCourseModal(${course.id})">
+                <button class="edit-btn" onclick="showEditCourseModal('${course._id}')">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="remove-btn" onclick="showRemoveCourseModal(${course._id})">
+                <button class="remove-btn" onclick="showRemoveCourseModal('${course._id}')">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>

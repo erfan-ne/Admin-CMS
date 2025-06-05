@@ -136,6 +136,95 @@ const data = {
       }
     });
   };
+
+  const showCreateCourseModal = () => {
+    modalScreen.classList.remove("hidden")
+    modalScreen.innerHTML = "";
+    modalScreen.insertAdjacentHTML("beforeend",
+      `
+      <div class="modal">
+        <i class="ui-border top red"></i>
+        <i class="ui-border bottom red"></i>
+          <header class="modal-header">
+            <h3>ایجاد دوره</h3>
+            <button class="close-modal" onclick="hideModal()">
+              <i class="fas fa-times"></i>
+            </button>
+          </header>
+          <main class="modal-content">
+            <input
+              type="text"
+              class="modal-input"
+              placeholder="عنوان دوره را وارد نمائید ..."
+              id="course-title"
+            />
+            <input
+              type="number"
+              class="modal-input"
+              placeholder="قیمت دوره را وارد نمائید ..."
+              id="course-price"
+            />
+            <input
+              type="text"
+              class="modal-input"
+              placeholder="دسته بندی دوره را وارد نمائید ..."
+              id="course-category"
+            />
+          </main>
+          <footer class="modal-footer">
+            <button class="cancel" onclick="hideModal()">انصراف</button>
+            <button class="submit" onclick="createNewCourse()">تائید</button>
+          </footer>
+      </div>
+      `
+    );
+  }
+  
+  const createNewCourse = () => {
+    const courseTitle = document.querySelector("#course-title")
+    const coursePrice = document.querySelector("#course-price")
+    const courseCategory = document.querySelector("#course-category")
+  
+    const newCourse = {
+      title: courseTitle.value,
+      price: +coursePrice.value,
+      category: courseCategory.value,
+      registersCount: 100,
+      discount: "1",
+      desc: "fake desc"
+    }
+  
+    fetch("https://js-cms.iran.liara.run/api/courses" ,{
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newCourse)
+    }).then(response => {
+      if(response.status === 201){
+        const process = toast.querySelector(".process");
+        const toastText = toast.querySelector(".toast-content");
+        toast.classList.remove("hidden");
+        toastText.innerHTML = "دوره با موفقیت اضافه شد";
+      
+        let timer;
+        let processWidth = 0;
+      
+        timer = setInterval(function () {
+          process.style.width = `${processWidth++}%`;
+          if (processWidth === 120) {
+            clearInterval(timer);
+            toast.classList.add("hidden");
+            process.style.width = "0%";
+            processWidth = 0;
+          }
+        }, 50);
+  
+        coursesSection()
+        hideModal()
+      }
+    })
+  }
   
   toggleMenu.addEventListener("click", function () {
     document.querySelector(".sidebar").classList.toggle("open");
