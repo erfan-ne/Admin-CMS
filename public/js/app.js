@@ -124,8 +124,8 @@ function showEditCourseModal(courseID) {
   closeModalBtn.addEventListener("click", HideModalScreen);
   cancelBtn.addEventListener("click", HideModalScreen);
 
-  const selectedCourse = data.courses.find((c) => c.id === courseID);
-
+  const selectedCourse = data.courses.find((c) => c._id === courseID);
+  
   titleInput.value = selectedCourse.title;
   priceInput.value = selectedCourse.price;
   categoryInput.value = selectedCourse.category;
