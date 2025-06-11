@@ -214,7 +214,7 @@ function showEditCourseModal(courseID) {
   
 }
 
-const EditCourse = (courseID) => {
+const EditCourse = async (courseID) => {
   const courseTitle = document.querySelector("#course-title")
   const coursePrice = document.querySelector("#course-price")
   const courseCategory = document.querySelector("#course-category")
@@ -226,11 +226,12 @@ const EditCourse = (courseID) => {
     registersCount: "100"
   }
 
-  fetch(`https://js-cms.iran.liara.run/api/courses/${courseID}`, {
+  const response = await fetch(`https://js-cms.iran.liara.run/api/courses/${courseID}`, {
     method: "PUT",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(editedCourse)
-  }).then(response => {
+  })
+
     if(response.status === 201){
       const process = toast.querySelector(".process");
       const toastText = toast.querySelector(".toast-content");
@@ -253,10 +254,9 @@ const EditCourse = (courseID) => {
       coursesSection()
       hideModal()
     }
-  })
 };
 
-const createNewCourse = () => {
+const createNewCourse = async () => {
   const courseTitle = document.querySelector("#course-title")
   const coursePrice = document.querySelector("#course-price")
   const courseCategory = document.querySelector("#course-category")
@@ -270,13 +270,14 @@ const createNewCourse = () => {
     desc: "fake desc"
   }
 
-  fetch("https://js-cms.iran.liara.run/api/courses" ,{
+  const response = await fetch("https://js-cms.iran.liara.run/api/courses" ,{
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify(newCourse)
-  }).then(response => {
+  })
+  
     if(response.status === 201){
       const process = toast.querySelector(".process");
       const toastText = toast.querySelector(".toast-content");
@@ -299,7 +300,6 @@ const createNewCourse = () => {
       coursesSection()
       hideModal()
     }
-  })
 }
 
 createCourseBtn.addEventListener("click" , showCreateCourseModal)
