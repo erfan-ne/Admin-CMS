@@ -14,19 +14,15 @@ const createCourseBtn = document.querySelector("#create-course")
 let page = 1;
 let coursePerPage = 6;
 
-const coursesSection = () => {
-  fetch("https://js-cms.iran.liara.run/api/courses")
-    .then((response) => response.json())
-    .then((courses) => {
-      data.courses.length = 0;
-      data.courses.push(...courses);
-
-      renderCourses(page);
-      renderPagination();
-
-      coursesData.forEach((course) => (course.innerHTML = data.courses.length));
-    });
-};
+const coursesSection = async () => {
+  const response = await fetch("https://js-cms.iran.liara.run/api/courses")
+  const courses = await response.json()  
+    data.courses.length = 0;
+    data.courses.push(...courses);
+    renderCourses(page);
+    renderPagination();
+    coursesData.forEach((course) => (course.innerHTML = data.courses.length));
+  };
 
 function renderCourses(currentPage) {
   coursesBody.innerHTML = "";
@@ -108,32 +104,30 @@ const showRemoveCourseModal = (courseID) => {
 
 const hideModal = () => modalScreen.classList.add("hidden")
 
-const removeCourse = (courseID) => {
-  fetch(`https://js-cms.iran.liara.run/api/courses/${courseID}`, { method: "DELETE" })
-      .then((response) => {
-          if (response.status === 200) {
-            const process = toast.querySelector(".process");
-            const toastText = toast.querySelector(".toast-content");
-            toast.classList.remove("hidden");
-            toastText.innerHTML = "دوره با موفقیت حذف شد";
-          
-            let timer;
-            let processWidth = 0;
-          
-            timer = setInterval(function () {
-              process.style.width = `${processWidth++}%`;
-              if (processWidth === 120) {
-                clearInterval(timer);
-                toast.classList.add("hidden");
-                process.style.width = "0%";
-                processWidth = 0;
-              }
-            }, 50);
-        
-            coursesSection();
-            hideModal();
-          }
-      });
+const removeCourse = async (courseID) => {
+  const response = await fetch(`https://js-cms.iran.liara.run/api/courses/${courseID}`, { method: "DELETE" })
+    if (response.status === 200) {
+      const process = toast.querySelector(".process");
+      const toastText = toast.querySelector(".toast-content");
+      toast.classList.remove("hidden");
+      toastText.innerHTML = "دوره با موفقیت حذف شد";
+    
+      let timer;
+      let processWidth = 0;
+    
+      timer = setInterval(function () {
+        process.style.width = `${processWidth++}%`;
+        if (processWidth === 120) {
+          clearInterval(timer);
+          toast.classList.add("hidden");
+          process.style.width = "0%";
+          processWidth = 0;
+        }
+      }, 50);
+  
+      coursesSection();
+      hideModal();
+    }
 };
 
 const showCreateCourseModal = () => {
