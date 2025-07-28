@@ -59,11 +59,18 @@ function renderPagination() {
     for (let i = 0; i < pagesCount; i++) {
       pagination.insertAdjacentHTML(
         "beforeend",
-        `<span class="page ${i === 0 ? "active" : ""}" onclick="changePageHandler(${i + 1})">${i + 1}</span>`
+        `<span class="page ${page === i + 1 ? "active" : ""}" onclick="changePageHandler(${i + 1})">${i + 1}</span>`
       );
     }
   }
+  
+  if (page > pagesCount) {
+    page = pagesCount || 1;
+    renderCourses(page);
+    renderPagination();
+  }
 }
+
 
 window.changePageHandler = function (userSelectedPage) {
   page = userSelectedPage;
