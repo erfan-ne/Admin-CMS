@@ -102,7 +102,7 @@ cd your-repo
 
 | Dashboard | Courses Page | Users Page |
 |----------|--------------|------------|
-| ![](./screenshots/dashboard.png) | ![](./screenshots/courses.png) | ![](./screenshots/users.png) |
+| ![](https://github.com/erfan-ne/Admin-CMS/blob/master/public/images/dashboard.png) | ![](https://github.com/erfan-ne/Admin-CMS/blob/master/public/images/courses%20page.png) | ![](https://github.com/erfan-ne/Admin-CMS/blob/master/public/images/users%20page.png) |
 
 ## 👨‍💻 Author
 
