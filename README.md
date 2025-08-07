@@ -106,4 +106,4 @@ cd your-repo
 
 ## 👨‍💻 Author
 
-Developed with 💙 by [Erfan](https://github.com/erfan-ne)
+Developed with 💙 by [Erfan Neshati](https://github.com/erfan-ne)
